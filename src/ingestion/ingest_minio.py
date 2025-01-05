@@ -17,7 +17,7 @@ TLS = os.getenv("MINIO_TLS")
 
 BUCKET_NAME = os.getenv("MINIO_BUCKET_NAME")
 INGEST_SOURCE_FILE = os.getenv("MINIO_SOURCE_FILE")
-INGEST_DEST_FILE = "../../data/raw/data.csv"
+INGEST_DEST_FILE = "../../data/processed/data.csv"
 INGEST_SEP = "\t"
 
 def main():

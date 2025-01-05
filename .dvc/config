@@ -1,0 +1,8 @@
+[core]
+    remote = minio
+['remote "minio"']
+    url = s3://dvc
+    endpointurl = https://localhost:9000
+    access_key_id = vToeYFB8u7vPGYFffRNV
+    secret_access_key = yevpmc76RRxPwow0ohfpCQs7duw4at390pwlOYWT
+    ssl_verify = false
