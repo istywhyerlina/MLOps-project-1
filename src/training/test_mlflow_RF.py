@@ -4,13 +4,16 @@ import pandas as pd
 from sklearn import datasets
 from imblearn.over_sampling import SMOTE
 from mlflow.models import infer_signature
-'''from sklearn.naive_bayes import GaussianNB
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier, VotingClassifier
+
+'''from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import GaussianNB
+from xgboost import XGBClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
-from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier, VotingClassifier
-from xgboost import XGBClassifier'''
+
+'''
 from sklearn.model_selection import train_test_split,GridSearchCV
-from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 
 if __name__ == "__main__": 
@@ -36,29 +39,29 @@ if __name__ == "__main__":
     #SMOTE (for imbalanced data)
     over = SMOTE(sampling_strategy='auto', random_state=33)
     X_train, y_train = over.fit_resample(X_train, y_train)
+
     
-    params = { "C": 0.001,
-               "solver": "liblinear",
-               "max_iter": 10, 
-               "penalty": "l1", 
-               "random_state": 22
-    } 
-    lr = LogisticRegression(**params)
+    params={"bootstrap": True,
+      "criterion": "gini",
+      "max_depth": 6,
+      "min_samples_leaf": 5,
+      "min_samples_split": 2,
+      "n_estimators": 100}
 
+    rf = RandomForestClassifier(**params)
+    
+    rf = rf.fit(X_train, y_train)
 
-
-    lr=lr.fit(X_train, y_train)
-
-    y_pred = lr.predict(X_test) 
+    y_pred = rf.predict(X_test) 
     accuracy = accuracy_score(y_test, y_pred) 
     
-    with mlflow.start_run(run_name = "Initial run"): 
-        '''mlflow.log_params(params)'''
+    with mlflow.start_run(run_name = "RF run"): 
+        mlflow.log_params(params) 
         mlflow.log_metric("accuracy", accuracy) 
-        mlflow.set_tag("Training Info", "Basic LR model for churn data") 
-        signature = infer_signature(X_train, lr.predict(X_train)) 
+        mlflow.set_tag("Training Info", "RF model for churn data") 
+        signature = infer_signature(X_train, rf.predict(X_train)) 
         model_info = mlflow.sklearn.log_model( 
-            sk_model = lr, 
+            sk_model = rf, 
             artifact_path = "churn", 
             signature = signature, 
             input_example = X_train, 
