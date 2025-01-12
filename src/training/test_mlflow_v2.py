@@ -37,9 +37,9 @@ if __name__ == "__main__":
     over = SMOTE(sampling_strategy='auto', random_state=33)
     X_train, y_train = over.fit_resample(X_train, y_train)
     
-    params = { "C": 0.001,
+    params = { "C": 0.5,
                "solver": "liblinear",
-               "max_iter": 10, 
+               "max_iter": 3, 
                "penalty": "l1", 
                "random_state": 22
     } 
@@ -62,6 +62,6 @@ if __name__ == "__main__":
             artifact_path = "churn", 
             signature = signature, 
             input_example = X_train, 
-            registered_model_name = "LR best param", 
+            registered_model_name = "LR initia", 
         )
 
