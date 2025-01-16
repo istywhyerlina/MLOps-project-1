@@ -1,4 +1,5 @@
 import mlflow
+import dotenv
 import numpy as np
 import pandas as pd
 from sklearn import datasets
@@ -14,7 +15,8 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 
 if __name__ == "__main__": 
-    mlflow.set_tracking_uri(uri = "http://localhost:5000") 
+    dotenv.load_dotenv("../../.env")
+    mlflow.set_tracking_uri(uri = "http://localhost:5000/") 
     mlflow.set_experiment("Churn Experiment") 
     data = pd.read_csv("../../data/processed/data.csv", sep = "\t")
     data['Geography'] = data.Geography.astype(float)

@@ -65,6 +65,6 @@ if __name__ == "__main__":
             artifact_path = "churn", 
             signature = signature, 
             input_example = X_train, 
-            registered_model_name = "RF best param", 
+            registered_model_name = "RandomForest", 
         )
 
